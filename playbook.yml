@@ -1,0 +1,22 @@
+---
+- name: Install Macroscop Server
+  hosts: proxmox_servers
+  become: yes
+
+  tasks:
+  - name: Edit debconf Macroscop
+    shell: "echo debconf debconf/priority select critical| debconf-set-selections"
+
+  - name: Edit debconf Firebird
+    shell: "echo firebird3.0-server shared/firebird/sysdba_password/first_install password value | debconf-set-selections"
+
+  - name: Add Macroscop repo
+    ansible.builtin.get_url:
+     url: "http://packages.macroscop.com/deb/macroscop.list"
+     dest: /etc/apt/sources.list.d/
+
+  - name: APT UPDATE
+    shell: "apt update"
+
+  - name: Install Macroscop
+    apt: name=macroscop state=latest
