@@ -1,2 +1,5 @@
 [proxmox_servers]
 ubuntu    ansible_host=192.168.101.224
+
+[cloud_servers]
+mc        ansible_host=158.160.12.130

@@ -8,7 +8,7 @@
     shell: "echo debconf debconf/priority select critical| debconf-set-selections"
 
   - name: Edit debconf Firebird
-    shell: "echo firebird3.0-server shared/firebird/sysdba_password/first_install password value | debconf-set-selections"
+    shell: "echo firebird3.0-server shared/firebird/sysdba_password/first_install password masterkey | debconf-set-selections"
 
   - name: Add Macroscop repo
     ansible.builtin.get_url:

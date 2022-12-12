@@ -1,0 +1,8 @@
+---
+- name: Install Macroscop Server
+  hosts: cloud_servers
+  become: no
+
+  tasks:
+  - name: Connection test
+    ping: 
