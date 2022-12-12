@@ -1,0 +1,39 @@
+---
+- name: Install Macroscop Server
+  hosts: cloud_servers
+  become: yes
+
+  tasks:
+  - name: Edit debconf Macroscop
+    shell: "echo debconf debconf/priority select critical| debconf-set-selections"
+
+  - name: Edit debconf Firebird
+    shell: "echo firebird3.0-server shared/firebird/sysdba_password/first_install password masterkey | debconf-set-selections"
+
+  - name: Add Macroscop repo
+    ansible.builtin.get_url:
+     url: "http://packages.macroscop.com/deb/macroscop.list"
+     dest: /etc/apt/sources.list.d/
+
+  - name: download macroscop apt key
+    ansible.builtin.get_url:
+     url: http://packages.macroscop.com/deb/macroscop.gpg.key
+     dest: /home/ansible/macroscop.key
+  
+  - name: install apt key from a file
+    apt_key:
+     file: /home/ansible/macroscop.key
+     state: present
+
+  - name: Update and upgrade
+    apt:
+     upgrade: yes
+     become: true
+
+  - name: Install Midnight Commander
+    ansible.builtin.apt:
+     name: mc
+     state: latest
+
+  - name: Install Macroscop
+    apt: name=macroscop state=latest

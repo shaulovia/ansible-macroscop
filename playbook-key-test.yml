@@ -1,0 +1,16 @@
+---
+- name: Add GPG-key
+  hosts: cloud_servers
+  become: yes
+
+  tasks:
+  - name: install apt key from a file
+    ansible.builtin.get_url:
+     url: http://packages.macroscop.com/deb/macroscop.gpg.key
+     dest: /home/ansible/macroscop.key
+  
+  - name: install apt key from a file
+    apt_key:
+     file: /home/ansible/macroscop.key
+     state: present
+
